@@ -2,7 +2,7 @@
   "name": "Julia",
   "author": "Jake Bolewski",
   "version": "0.0.1",
-  "source": "https://github.com/jakebolewski/LightTable-Julia",
+  "source": "https://github.com/jakebolewski/julialt",
   "desc": "Julia language plugin for Light Table",
   "dependencies": {
   },
