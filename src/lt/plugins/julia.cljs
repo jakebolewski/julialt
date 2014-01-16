@@ -35,7 +35,6 @@
 (behavior ::on-out
           :triggers #{:proc.out}
           :reaction (fn [this data]
-                      (prn "on-out")
                       (let [out (.toString data)]
                         (object/update! this [:buffer] str out)
                         (when (> (.indexOf out "Connected") -1)
@@ -46,23 +45,19 @@
 (behavior ::on-error
           :triggers #{:proc.error}
           :reaction (fn [this data]
-                      (prn "on-error")
                       (let [out (.toString data)]
                         (when-not (> (.indexOf (:buffer @this) "Connected") -1)
-                          (prn "out")
                           (object/update! this [:buffer] str out)))))
 
 (behavior ::on-exit
           :triggers #{:proc.exit}
           :reaction (fn [this data]
-                      (prn "on-exit")
                       (when-not (:connected @this)
                         (notifos/done-working "Error!")
                         (popup/popup! {:header "Error connecting to Julia"
                                        :body [:span "There was an issue connnecting to IJulia.
                                                      Here's what we got:" [:pre (:buffer @this)]]
                                        :buttons [{:label "close"}]})
-                        (prn (:client @this))
                         (clients/rem! (:client @this)))
                       (proc/kill-all (:procs @this))
                       (object/destroy! this)))
