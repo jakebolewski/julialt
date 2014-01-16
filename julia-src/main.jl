@@ -1,5 +1,5 @@
-#using HttpServer
-#using Websockets
+using HttpServer
+using WebSockets
 #import IJulia
 
 type LTConnection
@@ -14,14 +14,22 @@ type LTPayload
   data::Dict
 end
 
-#wsh = WebSocketHandler() do req, client
-#    while true
-#      msg = read(client)
-#      write(client, msg)
-#    end
-#end
+function handle_msg(msg)
+  println(msg)
+end
 
-#print("Connected")
-error("ERROR")
-#server = Server(wsh)
-#run(server, 8080)
+print("Connected")
+
+wsh = WebSocketHandler() do req, client
+    while true
+        msg = read(client)
+        #write(client, msg)
+        handle_msg(msg)
+    end
+end
+
+server = Server(wsh)
+run(server, 8080)
+
+
+println("test")

@@ -3,7 +3,7 @@
             [lt.objs.eval :as eval]
             [lt.objs.console :as console]
             [lt.objs.command :as cmd]
-            [lt.objs.clients.tcp :as tcp]
+            [lt.objs.clients.ws :as ws]
             [lt.objs.sidebar.clients :as scl]
             [lt.objs.dialogs :as dialogs]
             [lt.objs.files :as files]
@@ -80,7 +80,7 @@
         obj (object/create ::connecting-notifier client)
         env {}]
     (proc/exec {:command (or (:julia-exe @julia) "julia")
-                :args [(escape-spaces julia-path) tcp/port (clients/->id client)]
+                :args [(escape-spaces julia-path) ws/port (clients/->id client)]
                 :cwd project-path
                 :env env
                 :obj obj})))
@@ -140,6 +140,68 @@
     (check-all {:path path
                 :client client})
     client))
+
+(behavior ::julia-result
+          :triggers #{:editor.eval.juli.result}
+          :reaction (fn [editor res]
+                      (notifos/done-working)
+                      (object/raise editor :editor.result (:result res) {:line (:end (:meta res))
+                                                                         :start-line (-> res :meta :start)})))
+(behavior ::julia-success
+          :triggers #{:editor.eval.julia.success}
+          :reaction (fn [editor res]
+                      (notifos/done-working)
+                      (object/raise editor :editor.result "✓" {:line (-> res :meta :end)
+                                                                :start-line (-> res :meta :start)})))
+(behavior ::julia-exception
+          :triggers #{:editor.eval.julia.exception}
+          :reaction (fn [editor ex]
+                      (notifos/done-working)
+                      (object/raise editor :editor.exception (:ex ex) {:line (-> ex :meta :end)})))
+
+(behavior ::julia-printer
+          :triggers #{:editor.eval.julia.print}
+          :reaction (fn [editor p]
+                      (console/loc-log {:file (files/basename (:file p))
+                                        :line "stdout"
+                                        :content (:msg p)})))
+(behavior ::on-eval
+          :triggers #{:eval}
+          :reaction (fn [editor]
+                      (prn "on-eval")
+                      (object/raise julia :eval! {:origin editor
+                                                  :info (assoc (@editor :info)
+                                                  :code "Test")})))
+(behavior ::on-eval.one
+          :triggers #{:eval.one}
+          :reaction (fn [editor]
+                      (prn "on-eval.one")
+                      (let [code "Test" ;;(watches/watched-range editor nil nil python-watch)
+                            pos (ed/->cursor editor)
+                            info (:info @editor)
+                            info (if (ed/selection? editor)
+                                   (assoc info
+                                     :code (ed/selection editor)
+                                     :meta {:start (-> (ed/->cursor editor "start") :line)
+                                            :end (-> (ed/->cursor editor "end") :line)})
+                                   (assoc info :pos pos :code code))]
+                        (object/raise python :eval! {:origin editor
+                                                     :info info}))))
+(behavior ::eval!
+          :triggers #{:eval!}
+          :reaction (fn [this event]
+                      (prn "eval!")
+                      (let [{:keys [info origin]} event
+                            client (-> @origin :client :default)]
+                        (notifos/working "")
+                        (clients/send (eval/get-client! {:command :editor.eval.julia
+                                                         :origin origin
+                                                         :info info
+                                                         :create try-connect})
+                                      :editor.eval.julia
+                                      info
+                                      :only
+                                      origin))))
 
 ;; define the toplevel julia object
 (object/object* ::julia-lang

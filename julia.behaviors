@@ -1,8 +1,15 @@
 {:+ {:app [(:lt.objs.plugins/load-js ["codemirror/julia.js" "julia_compiled.js"])]
-     :editor.julia [[:lt.object/add-tag :watchable]
+     :editor.julia [[:lt.plugins.julia/julia-exception
+                     :lt.plugins.julia/on-eval
+                     :lt.plugins.julia/on-eval.one
+                     :lt.plugins.julia/result
+                     :lt.plugins.julia/julia-success
+                     :lt.plugins.julia/julia-printer]
+                    [:lt.object/add-tag :watchable]
                      (:lt.objs.editor/tab-settings false 4 4)]
      :files [(:lt.objs.files/file-types [{:name "Julia"
                                           :exts [:jl]
 					                                :mime "text/x-julia"
 					                                :tags [:editor.julia]}])]
-     :julia.lang [:lt.plugins.julia/connect]}}
+     :julia.lang [:lt.plugins.julia/connect
+                  :lt.plugins.julia/eval!]}}
