@@ -1,6 +1,6 @@
-using HttpServer
-using WebSockets
-#import IJulia
+#using HttpServer
+#using WebSockets
+using JSON
 
 type LTConnection
   name::String
@@ -10,26 +10,39 @@ type LTConnection
   commands::Vector{String}
 end
 
-type LTPayload
-  data::Dict
+#error("Error args length: $(length(ARGS)), $(ARGS[1]), $(ARGS[2])")
+
+const PORT = int(ARGS[1])
+const CLID = int(ARGS[2])
+
+function response_msg(msg)
+  client_msg = json({"name" => "julia-lt",
+                     "client-id" => CLID,
+                     "dir" => pwd(),
+                     "commands" => ["editor.eval.julia"],
+                     "type" => "julia"})
+  return client_msg
 end
 
-function handle_msg(msg)
-  println(msg)
+@async begin
+server = listen(PORT)
+sock = accept(server)
+println("Connected")
+in = readline(sock)
+open("log.txt", "a+") do fh
+  write(fh, in)
+end
+write(sock, response_msg(in))
+close(sock)
 end
 
-print("Connected")
+#wsh = WebSocketHandler() do req, client
+#  while true
+#    msg = read(client)
+#    rsp = response_msg(msg)
+#    write(client, rsp)
+#  end
+#end
 
-wsh = WebSocketHandler() do req, client
-    while true
-        msg = read(client)
-        #write(client, msg)
-        handle_msg(msg)
-    end
-end
-
-server = Server(wsh)
-run(server, 8080)
-
-
-println("test")
+#server = Server(wsh)
+#run(server, PORT)

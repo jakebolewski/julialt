@@ -3,7 +3,7 @@
             [lt.objs.eval :as eval]
             [lt.objs.console :as console]
             [lt.objs.command :as cmd]
-            [lt.objs.clients.ws :as ws]
+            [lt.objs.clients.tcp :as tcp]
             [lt.objs.sidebar.clients :as scl]
             [lt.objs.dialogs :as dialogs]
             [lt.objs.files :as files]
@@ -35,7 +35,9 @@
 (behavior ::on-out
           :triggers #{:proc.out}
           :reaction (fn [this data]
+                      (prn "on-out")
                       (let [out (.toString data)]
+                        (prn out)
                         (object/update! this [:buffer] str out)
                         (when (> (.indexOf out "Connected") -1)
                           (do
@@ -45,13 +47,16 @@
 (behavior ::on-error
           :triggers #{:proc.error}
           :reaction (fn [this data]
+                      (prn "on-error")
                       (let [out (.toString data)]
+                        (prn "on-error: " data)
                         (when-not (> (.indexOf (:buffer @this) "Connected") -1)
                           (object/update! this [:buffer] str out)))))
 
 (behavior ::on-exit
           :triggers #{:proc.exit}
           :reaction (fn [this data]
+                      (prn "on-exit: " data)
                       (when-not (:connected @this)
                         (notifos/done-working "Error!")
                         (popup/popup! {:header "Error connecting to Julia"
@@ -67,7 +72,7 @@
                 :behaviors [::on-out ::on-error ::on-exit]
                 :init (fn [this client]
                         (object/merge! this {:client client :buffer ""})
-                        this))
+                        nil))
 
 (defn escape-spaces [s]
   (if (= files/separator "\\")
@@ -80,7 +85,7 @@
         obj (object/create ::connecting-notifier client)
         env {}]
     (proc/exec {:command (or (:julia-exe @julia) "julia")
-                :args [(escape-spaces julia-path) ws/port (clients/->id client)]
+                :args [(escape-spaces julia-path) tcp/port (clients/->id client)]
                 :cwd project-path
                 :env env
                 :obj obj})))
@@ -135,15 +140,22 @@
       (notify)))
 
 (defn try-connect [{:keys [info]}]
+  (prn "try-connect: ws - ", tcp/port)
   (let [path (:path info)
         client (clients/client! :julia.client)]
     (check-all {:path path
                 :client client})
     client))
 
+(defn julia-watch [meta, src]
+  (let [meta (js/JSON.stringify (clj->js meta))]
+    ;; TODO
+    (str src)))
+
 (behavior ::julia-result
-          :triggers #{:editor.eval.juli.result}
+          :triggers #{:editor.eval.julia.result}
           :reaction (fn [editor res]
+                      (prn "julia-result")
                       (notifos/done-working)
                       (object/raise editor :editor.result (:result res) {:line (:end (:meta res))
                                                                          :start-line (-> res :meta :start)})))
@@ -171,12 +183,12 @@
                       (prn "on-eval")
                       (object/raise julia :eval! {:origin editor
                                                   :info (assoc (@editor :info)
-                                                  :code "Test")})))
+                                                  :code (watches/watched-range editor nil nil julia-watch))})))
 (behavior ::on-eval.one
           :triggers #{:eval.one}
           :reaction (fn [editor]
                       (prn "on-eval.one")
-                      (let [code "Test" ;;(watches/watched-range editor nil nil python-watch)
+                      (let [code (watches/watched-range editor nil nil julia-watch)
                             pos (ed/->cursor editor)
                             info (:info @editor)
                             info (if (ed/selection? editor)
@@ -185,8 +197,8 @@
                                      :meta {:start (-> (ed/->cursor editor "start") :line)
                                             :end (-> (ed/->cursor editor "end") :line)})
                                    (assoc info :pos pos :code code))]
-                        (object/raise python :eval! {:origin editor
-                                                     :info info}))))
+                        (object/raise julia :eval! {:origin editor
+                                                    :info info}))))
 (behavior ::eval!
           :triggers #{:eval!}
           :reaction (fn [this event]
@@ -209,6 +221,7 @@
 
 (def julia (object/create ::julia-lang))
 
+julia
 
 (behavior ::connect
           :triggers #{:connect}
