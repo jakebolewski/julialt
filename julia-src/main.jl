@@ -21,39 +21,6 @@ is_linenumber(ex::LineNumberNode) = true
 is_linenumber(ex::Expr) = is(ex.head, :line)
 is_linenumber(ex) = false
 
-function find_loc(args, line, nlines)
-  for i in 1:lenth(args)
-    if !isa(args[i], Expr)
-      continue
-    end
-    if isa(first(args[i].args), LineNumberNode):
-      # this expression is a block
-      expr_start = args[i].args[1].line
-      expr_end = (i + 1) > length(args) ? nlines : args[i+1].line
-      if line >= expr_begin && line <= expr_end
-        return {"start" => expr_start, "end" => expr_end}
-      end
-    else
-      # this expression is a single line statement
-      local line_before::Int
-      local line_after::Int
-      if i + 1 < length(args) && i - 1 > 0
-        line_before = args[i-1].line
-        line_after  = args[i+1].line
-      end
-      if i + 1 < length(args)
-        line_before = args[i-1].line
-        line_after  = nlines
-      end
-      if i - 1 > 0
-        line_before = 1
-        line_after = args[i+1].line
-      end
-      if line_before < line < line_after
-        return {"start" => 1}
-    end
-end
-
 function handle_pos(str, pos)
   lines = split(str, "\n")
   nlines = length(lines)
@@ -89,11 +56,10 @@ function parseblock(str::String)
 end
 
 function clean_code(c)
-  return replace(c, r"(#.*coding.*)\n?", "\n")
+  return c #replace(c, r"(#.*coding.*)\n?", "\n")
 end
 
 function send_response(socket, id, cmd, args)
-  println("send response")
   data = json([id, cmd, args])
   write(socket, string(data, "\n"))
 end
@@ -103,10 +69,11 @@ function eval_julia(socket, id, msg)
     res = include_string(clean_code(msg["code"]))
     if res == nothing
         send_response(socket, id, "editor.eval.julia.success",
-                      {"meta" => msg})
+          {"meta" => {"start" => 1, "end" => 1}})
     else
         send_response(socket, id, "editor.eval.julia.result",
-                      {"result"=>res, "meta"=> msg})
+        {"result" => string(res), "meta"=> {"start" => 1,
+                                             "end" => 1}})
     end
   catch err
       err_msg = string(err) * "\n"

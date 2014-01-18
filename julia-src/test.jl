@@ -6,10 +6,10 @@ function test()
   "hello world"
 end
 
-type Test
-  a :: Int
-  b :: Int
-end
+#type Test
+#  a :: Int
+#  b :: Int
+#end
 
 Test() = Test(1, 2)
 
@@ -24,8 +24,10 @@ end
 begin
   x = 1
   y = 2
-  print(z)
+  print(x + y)
 end
+
+testy()
 
 is_linenumber(ex::LineNumberNode) = true
 is_linenumber(ex::Expr) = is(ex.head, :line)
@@ -34,6 +36,7 @@ is_linenumber(ex) = false
 get_linenumber(ex::Expr) = ex.args[1]
 get_linenumber(ex::LineNumberNode) = ex.line
 
+is_linenumber(2)
 
 function lineno(code::String)
   nlines = length(split(str, "\n"))
