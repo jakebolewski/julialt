@@ -56,7 +56,7 @@
 (behavior ::on-exit
           :triggers #{:proc.exit}
           :reaction (fn [this data]
-                      (prn "on-exit: " data)
+                      (prn "on-exit: " data " connected: "(:connected @this))
                       (when-not (:connected @this)
                         (notifos/done-working "Error!")
                         (popup/popup! {:header "Error connecting to Julia"
@@ -95,12 +95,16 @@
         roots (files/get-roots)]
     (loop [cur p
            prev ""]
+      (prn roots cur prev)
       (if (or (empty? cur)
               (roots cur)
               (= cur prev))
         (assoc obj :project-path nil)
         (assoc obj :project-path cur)))))
 
+(defn find-project2 [obj]
+  (let [p (:path obj)]
+    (assoc obj :project-path (files/parent p))))
 
 (defn notify [obj]
   (let [{:keys  [julia project-path julia-client client]} obj]
@@ -136,7 +140,7 @@
   (-> obj
       (check-julia)
       (check-client)
-      (find-project)
+      (find-project2)
       (notify)))
 
 (defn try-connect [{:keys [info]}]
@@ -197,6 +201,7 @@
                                      :meta {:start (-> (ed/->cursor editor "start") :line)
                                             :end (-> (ed/->cursor editor "end") :line)})
                                    (assoc info :pos pos :code code))]
+                        (prn (:meta info))
                         (object/raise julia :eval! {:origin editor
                                                     :info info}))))
 (behavior ::eval!

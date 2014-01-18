@@ -51,8 +51,8 @@ lt.plugins.julia.julia_path = lt.objs.files.join.call(null,lt.plugins.julia.plug
 lt.plugins.julia.check_client = (function check_client(obj){return cljs.core.assoc.call(null,obj,new cljs.core.Keyword(null,"julia-client","julia-client",2943204913),lt.objs.files.exists_QMARK_.call(null,lt.plugins.julia.julia_path));
 });
 
-lt.plugins.julia.check_julia = (function check_julia(obj){return cljs.core.assoc.call(null,obj,new cljs.core.Keyword(null,"julia","julia",1115390155),(function (){var or__6797__auto__ = new cljs.core.Keyword(null,"julia-exe","julia-exe",610872080).cljs$core$IFn$_invoke$arity$1(cljs.core.deref.call(null,lt.plugins.julia.julia));if(cljs.core.truth_(or__6797__auto__))
-{return or__6797__auto__;
+lt.plugins.julia.check_julia = (function check_julia(obj){return cljs.core.assoc.call(null,obj,new cljs.core.Keyword(null,"julia","julia",1115390155),(function (){var or__6741__auto__ = new cljs.core.Keyword(null,"julia-exe","julia-exe",610872080).cljs$core$IFn$_invoke$arity$1(cljs.core.deref.call(null,lt.plugins.julia.julia));if(cljs.core.truth_(or__6741__auto__))
+{return or__6741__auto__;
 } else
 {return lt.plugins.julia.shell.which("julia");
 }
@@ -81,7 +81,7 @@ if((new cljs.core.Keyword(null,"buffer","buffer",3930752946).cljs$core$IFn$_invo
 });
 lt.object.behavior_STAR_.call(null,new cljs.core.Keyword("lt.plugins.julia","on-error","lt.plugins.julia/on-error",3750071698),new cljs.core.Keyword(null,"reaction","reaction",4441361819),lt.plugins.julia.__BEH__on_error,new cljs.core.Keyword(null,"triggers","triggers",2516997421),new cljs.core.PersistentHashSet(null, new cljs.core.PersistentArrayMap(null, 1, [new cljs.core.Keyword(null,"proc.error","proc.error",4143512802),null], null), null));
 
-lt.plugins.julia.__BEH__on_exit = (function __BEH__on_exit(this$,data){cljs.core.prn.call(null,"on-exit: ",data);
+lt.plugins.julia.__BEH__on_exit = (function __BEH__on_exit(this$,data){cljs.core.prn.call(null,"on-exit: ",data," connected: ",new cljs.core.Keyword(null,"connected","connected",4729661051).cljs$core$IFn$_invoke$arity$1(cljs.core.deref.call(null,this$)));
 if(cljs.core.truth_(new cljs.core.Keyword(null,"connected","connected",4729661051).cljs$core$IFn$_invoke$arity$1(cljs.core.deref.call(null,this$))))
 {} else
 {lt.objs.notifos.done_working.call(null,"Error!");
@@ -104,8 +104,8 @@ lt.plugins.julia.escape_spaces = (function escape_spaces(s){if(cljs.core._EQ_.ca
 }
 });
 
-lt.plugins.julia.run_julia = (function run_julia(p__8310){var map__8312 = p__8310;var map__8312__$1 = ((cljs.core.seq_QMARK_.call(null,map__8312))?cljs.core.apply.call(null,cljs.core.hash_map,map__8312):map__8312);var info = map__8312__$1;var env = cljs.core.get.call(null,map__8312__$1,new cljs.core.Keyword(null,"env","env",1014004831));var client = cljs.core.get.call(null,map__8312__$1,new cljs.core.Keyword(null,"client","client",3951159101));var name = cljs.core.get.call(null,map__8312__$1,new cljs.core.Keyword(null,"name","name",1017277949));var project_path = cljs.core.get.call(null,map__8312__$1,new cljs.core.Keyword(null,"project-path","project-path",1907176907));var path = cljs.core.get.call(null,map__8312__$1,new cljs.core.Keyword(null,"path","path",1017337751));var n = lt.objs.notifos.working.call(null,"Connecting...");var obj = lt.object.create.call(null,new cljs.core.Keyword("lt.plugins.julia","connecting-notifier","lt.plugins.julia/connecting-notifier",3823085841),client);var env__$1 = cljs.core.PersistentArrayMap.EMPTY;return lt.objs.proc.exec.call(null,new cljs.core.PersistentArrayMap(null, 5, [new cljs.core.Keyword(null,"command","command",1964298941),(function (){var or__6797__auto__ = new cljs.core.Keyword(null,"julia-exe","julia-exe",610872080).cljs$core$IFn$_invoke$arity$1(cljs.core.deref.call(null,lt.plugins.julia.julia));if(cljs.core.truth_(or__6797__auto__))
-{return or__6797__auto__;
+lt.plugins.julia.run_julia = (function run_julia(p__8201){var map__8203 = p__8201;var map__8203__$1 = ((cljs.core.seq_QMARK_.call(null,map__8203))?cljs.core.apply.call(null,cljs.core.hash_map,map__8203):map__8203);var info = map__8203__$1;var env = cljs.core.get.call(null,map__8203__$1,new cljs.core.Keyword(null,"env","env",1014004831));var client = cljs.core.get.call(null,map__8203__$1,new cljs.core.Keyword(null,"client","client",3951159101));var name = cljs.core.get.call(null,map__8203__$1,new cljs.core.Keyword(null,"name","name",1017277949));var project_path = cljs.core.get.call(null,map__8203__$1,new cljs.core.Keyword(null,"project-path","project-path",1907176907));var path = cljs.core.get.call(null,map__8203__$1,new cljs.core.Keyword(null,"path","path",1017337751));var n = lt.objs.notifos.working.call(null,"Connecting...");var obj = lt.object.create.call(null,new cljs.core.Keyword("lt.plugins.julia","connecting-notifier","lt.plugins.julia/connecting-notifier",3823085841),client);var env__$1 = cljs.core.PersistentArrayMap.EMPTY;return lt.objs.proc.exec.call(null,new cljs.core.PersistentArrayMap(null, 5, [new cljs.core.Keyword(null,"command","command",1964298941),(function (){var or__6741__auto__ = new cljs.core.Keyword(null,"julia-exe","julia-exe",610872080).cljs$core$IFn$_invoke$arity$1(cljs.core.deref.call(null,lt.plugins.julia.julia));if(cljs.core.truth_(or__6741__auto__))
+{return or__6741__auto__;
 } else
 {return "julia";
 }
@@ -113,11 +113,12 @@ lt.plugins.julia.run_julia = (function run_julia(p__8310){var map__8312 = p__831
 });
 
 lt.plugins.julia.find_project = (function find_project(obj){var p = new cljs.core.Keyword(null,"path","path",1017337751).cljs$core$IFn$_invoke$arity$1(obj);var roots = lt.objs.files.get_roots.call(null);var cur = p;var prev = "";while(true){
-if(cljs.core.truth_((function (){var or__6797__auto__ = cljs.core.empty_QMARK_.call(null,cur);if(or__6797__auto__)
-{return or__6797__auto__;
+cljs.core.prn.call(null,roots,cur,prev);
+if(cljs.core.truth_((function (){var or__6741__auto__ = cljs.core.empty_QMARK_.call(null,cur);if(or__6741__auto__)
+{return or__6741__auto__;
 } else
-{var or__6797__auto____$1 = roots.call(null,cur);if(cljs.core.truth_(or__6797__auto____$1))
-{return or__6797__auto____$1;
+{var or__6741__auto____$1 = roots.call(null,cur);if(cljs.core.truth_(or__6741__auto____$1))
+{return or__6741__auto____$1;
 } else
 {return cljs.core._EQ_.call(null,cur,prev);
 }
@@ -131,7 +132,10 @@ break;
 }
 });
 
-lt.plugins.julia.notify = (function notify(obj){var map__8314 = obj;var map__8314__$1 = ((cljs.core.seq_QMARK_.call(null,map__8314))?cljs.core.apply.call(null,cljs.core.hash_map,map__8314):map__8314);var client = cljs.core.get.call(null,map__8314__$1,new cljs.core.Keyword(null,"client","client",3951159101));var julia_client = cljs.core.get.call(null,map__8314__$1,new cljs.core.Keyword(null,"julia-client","julia-client",2943204913));var project_path = cljs.core.get.call(null,map__8314__$1,new cljs.core.Keyword(null,"project-path","project-path",1907176907));var julia = cljs.core.get.call(null,map__8314__$1,new cljs.core.Keyword(null,"julia","julia",1115390155));if((cljs.core.not.call(null,julia)) || (cljs.core.empty_QMARK_.call(null,julia)))
+lt.plugins.julia.find_project2 = (function find_project2(obj){var p = new cljs.core.Keyword(null,"path","path",1017337751).cljs$core$IFn$_invoke$arity$1(obj);return cljs.core.assoc.call(null,obj,new cljs.core.Keyword(null,"project-path","project-path",1907176907),lt.objs.files.parent.call(null,p));
+});
+
+lt.plugins.julia.notify = (function notify(obj){var map__8205 = obj;var map__8205__$1 = ((cljs.core.seq_QMARK_.call(null,map__8205))?cljs.core.apply.call(null,cljs.core.hash_map,map__8205):map__8205);var client = cljs.core.get.call(null,map__8205__$1,new cljs.core.Keyword(null,"client","client",3951159101));var julia_client = cljs.core.get.call(null,map__8205__$1,new cljs.core.Keyword(null,"julia-client","julia-client",2943204913));var project_path = cljs.core.get.call(null,map__8205__$1,new cljs.core.Keyword(null,"project-path","project-path",1907176907));var julia = cljs.core.get.call(null,map__8205__$1,new cljs.core.Keyword(null,"julia","julia",1115390155));if((cljs.core.not.call(null,julia)) || (cljs.core.empty_QMARK_.call(null,julia)))
 {if(cljs.core.truth_(client))
 {lt.objs.clients.rem_BANG_.call(null,client);
 } else
@@ -160,10 +164,10 @@ return lt.plugins.julia.try_connect.call(null,obj);
 return obj;
 });
 
-lt.plugins.julia.check_all = (function check_all(obj){return lt.plugins.julia.notify.call(null,lt.plugins.julia.find_project.call(null,lt.plugins.julia.check_client.call(null,lt.plugins.julia.check_julia.call(null,obj))));
+lt.plugins.julia.check_all = (function check_all(obj){return lt.plugins.julia.notify.call(null,lt.plugins.julia.find_project2.call(null,lt.plugins.julia.check_client.call(null,lt.plugins.julia.check_julia.call(null,obj))));
 });
 
-lt.plugins.julia.try_connect = (function try_connect(p__8315){var map__8317 = p__8315;var map__8317__$1 = ((cljs.core.seq_QMARK_.call(null,map__8317))?cljs.core.apply.call(null,cljs.core.hash_map,map__8317):map__8317);var info = cljs.core.get.call(null,map__8317__$1,new cljs.core.Keyword(null,"info","info",1017141280));cljs.core.prn.call(null,"try-connect: ws - ",lt.objs.clients.tcp.port);
+lt.plugins.julia.try_connect = (function try_connect(p__8206){var map__8208 = p__8206;var map__8208__$1 = ((cljs.core.seq_QMARK_.call(null,map__8208))?cljs.core.apply.call(null,cljs.core.hash_map,map__8208):map__8208);var info = cljs.core.get.call(null,map__8208__$1,new cljs.core.Keyword(null,"info","info",1017141280));cljs.core.prn.call(null,"try-connect: ws - ",lt.objs.clients.tcp.port);
 var path = new cljs.core.Keyword(null,"path","path",1017337751).cljs$core$IFn$_invoke$arity$1(info);var client = lt.objs.clients.client_BANG_.call(null,new cljs.core.Keyword(null,"julia.client","julia.client",3830708594));lt.plugins.julia.check_all.call(null,new cljs.core.PersistentArrayMap(null, 2, [new cljs.core.Keyword(null,"path","path",1017337751),path,new cljs.core.Keyword(null,"client","client",3951159101),client], null));
 return client;
 });
@@ -197,12 +201,13 @@ return lt.object.raise.call(null,lt.plugins.julia.julia,new cljs.core.Keyword(nu
 lt.object.behavior_STAR_.call(null,new cljs.core.Keyword("lt.plugins.julia","on-eval","lt.plugins.julia/on-eval",1230654914),new cljs.core.Keyword(null,"reaction","reaction",4441361819),lt.plugins.julia.__BEH__on_eval,new cljs.core.Keyword(null,"triggers","triggers",2516997421),new cljs.core.PersistentHashSet(null, new cljs.core.PersistentArrayMap(null, 1, [new cljs.core.Keyword(null,"eval","eval",1017029646),null], null), null));
 
 lt.plugins.julia.__BEH__on_eval__DOT__one = (function __BEH__on_eval__DOT__one(editor){cljs.core.prn.call(null,"on-eval.one");
-var code = lt.plugins.watches.watched_range.call(null,editor,null,null,lt.plugins.julia.julia_watch);var pos = lt.objs.editor.__GT_cursor.call(null,editor);var info = new cljs.core.Keyword(null,"info","info",1017141280).cljs$core$IFn$_invoke$arity$1(cljs.core.deref.call(null,editor));var info__$1 = (cljs.core.truth_(lt.objs.editor.selection_QMARK_.call(null,editor))?cljs.core.assoc.call(null,info,new cljs.core.Keyword(null,"code","code",1016963423),lt.objs.editor.selection.call(null,editor),new cljs.core.Keyword(null,"meta","meta",1017252215),new cljs.core.PersistentArrayMap(null, 2, [new cljs.core.Keyword(null,"start","start",1123661780),new cljs.core.Keyword(null,"line","line",1017226086).cljs$core$IFn$_invoke$arity$1(lt.objs.editor.__GT_cursor.call(null,editor,"start")),new cljs.core.Keyword(null,"end","end",1014004813),new cljs.core.Keyword(null,"line","line",1017226086).cljs$core$IFn$_invoke$arity$1(lt.objs.editor.__GT_cursor.call(null,editor,"end"))], null)):cljs.core.assoc.call(null,info,new cljs.core.Keyword(null,"pos","pos",1014015430),pos,new cljs.core.Keyword(null,"code","code",1016963423),code));return lt.object.raise.call(null,lt.plugins.julia.julia,new cljs.core.Keyword(null,"eval!","eval!",1110791799),new cljs.core.PersistentArrayMap(null, 2, [new cljs.core.Keyword(null,"origin","origin",4300251800),editor,new cljs.core.Keyword(null,"info","info",1017141280),info__$1], null));
+var code = lt.plugins.watches.watched_range.call(null,editor,null,null,lt.plugins.julia.julia_watch);var pos = lt.objs.editor.__GT_cursor.call(null,editor);var info = new cljs.core.Keyword(null,"info","info",1017141280).cljs$core$IFn$_invoke$arity$1(cljs.core.deref.call(null,editor));var info__$1 = (cljs.core.truth_(lt.objs.editor.selection_QMARK_.call(null,editor))?cljs.core.assoc.call(null,info,new cljs.core.Keyword(null,"code","code",1016963423),lt.objs.editor.selection.call(null,editor),new cljs.core.Keyword(null,"meta","meta",1017252215),new cljs.core.PersistentArrayMap(null, 2, [new cljs.core.Keyword(null,"start","start",1123661780),new cljs.core.Keyword(null,"line","line",1017226086).cljs$core$IFn$_invoke$arity$1(lt.objs.editor.__GT_cursor.call(null,editor,"start")),new cljs.core.Keyword(null,"end","end",1014004813),new cljs.core.Keyword(null,"line","line",1017226086).cljs$core$IFn$_invoke$arity$1(lt.objs.editor.__GT_cursor.call(null,editor,"end"))], null)):cljs.core.assoc.call(null,info,new cljs.core.Keyword(null,"pos","pos",1014015430),pos,new cljs.core.Keyword(null,"code","code",1016963423),code));cljs.core.prn.call(null,new cljs.core.Keyword(null,"meta","meta",1017252215).cljs$core$IFn$_invoke$arity$1(info__$1));
+return lt.object.raise.call(null,lt.plugins.julia.julia,new cljs.core.Keyword(null,"eval!","eval!",1110791799),new cljs.core.PersistentArrayMap(null, 2, [new cljs.core.Keyword(null,"origin","origin",4300251800),editor,new cljs.core.Keyword(null,"info","info",1017141280),info__$1], null));
 });
 lt.object.behavior_STAR_.call(null,new cljs.core.Keyword("lt.plugins.julia","on-eval.one","lt.plugins.julia/on-eval.one",2001482554),new cljs.core.Keyword(null,"reaction","reaction",4441361819),lt.plugins.julia.__BEH__on_eval__DOT__one,new cljs.core.Keyword(null,"triggers","triggers",2516997421),new cljs.core.PersistentHashSet(null, new cljs.core.PersistentArrayMap(null, 1, [new cljs.core.Keyword(null,"eval.one","eval.one",1173589382),null], null), null));
 
 lt.plugins.julia.__BEH__eval_BANG_ = (function __BEH__eval_BANG_(this$,event){cljs.core.prn.call(null,"eval!");
-var map__8319 = event;var map__8319__$1 = ((cljs.core.seq_QMARK_.call(null,map__8319))?cljs.core.apply.call(null,cljs.core.hash_map,map__8319):map__8319);var origin = cljs.core.get.call(null,map__8319__$1,new cljs.core.Keyword(null,"origin","origin",4300251800));var info = cljs.core.get.call(null,map__8319__$1,new cljs.core.Keyword(null,"info","info",1017141280));var client = new cljs.core.Keyword(null,"default","default",2558708147).cljs$core$IFn$_invoke$arity$1(new cljs.core.Keyword(null,"client","client",3951159101).cljs$core$IFn$_invoke$arity$1(cljs.core.deref.call(null,origin)));lt.objs.notifos.working.call(null,"");
+var map__8210 = event;var map__8210__$1 = ((cljs.core.seq_QMARK_.call(null,map__8210))?cljs.core.apply.call(null,cljs.core.hash_map,map__8210):map__8210);var origin = cljs.core.get.call(null,map__8210__$1,new cljs.core.Keyword(null,"origin","origin",4300251800));var info = cljs.core.get.call(null,map__8210__$1,new cljs.core.Keyword(null,"info","info",1017141280));var client = new cljs.core.Keyword(null,"default","default",2558708147).cljs$core$IFn$_invoke$arity$1(new cljs.core.Keyword(null,"client","client",3951159101).cljs$core$IFn$_invoke$arity$1(cljs.core.deref.call(null,origin)));lt.objs.notifos.working.call(null,"");
 return lt.objs.clients.send.call(null,lt.objs.eval.get_client_BANG_.call(null,new cljs.core.PersistentArrayMap(null, 4, [new cljs.core.Keyword(null,"command","command",1964298941),new cljs.core.Keyword(null,"editor.eval.julia","editor.eval.julia",3010658330),new cljs.core.Keyword(null,"origin","origin",4300251800),origin,new cljs.core.Keyword(null,"info","info",1017141280),info,new cljs.core.Keyword(null,"create","create",3956577390),lt.plugins.julia.try_connect], null)),new cljs.core.Keyword(null,"editor.eval.julia","editor.eval.julia",3010658330),info,new cljs.core.Keyword(null,"only","only",1017320222),origin);
 });
 lt.object.behavior_STAR_.call(null,new cljs.core.Keyword("lt.plugins.julia","eval!","lt.plugins.julia/eval!",4593679099),new cljs.core.Keyword(null,"reaction","reaction",4441361819),lt.plugins.julia.__BEH__eval_BANG_,new cljs.core.Keyword(null,"triggers","triggers",2516997421),new cljs.core.PersistentHashSet(null, new cljs.core.PersistentArrayMap(null, 1, [new cljs.core.Keyword(null,"eval!","eval!",1110791799),null], null), null));
